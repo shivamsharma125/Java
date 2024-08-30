@@ -10,4 +10,11 @@ public class DateTimeUtil {
         double hours = minutes / 60;
         return (int) Math.ceil(hours);
     }
+
+    public static int compareTwoDates(Date date1, Date date2){
+        return date1.compareTo(date2);
+        // < 0  : Date 1 occurs before Date 2
+        // == 0 : Date 1 is same as Date 2
+        // > 0  : Date 1 occurs after Date 2
+    }
 }
