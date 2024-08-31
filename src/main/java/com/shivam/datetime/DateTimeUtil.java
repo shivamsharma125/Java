@@ -1,5 +1,8 @@
 package com.shivam.datetime;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateTimeUtil {
@@ -24,5 +27,86 @@ public class DateTimeUtil {
 //        date1.before(date2); // date1 occurs before date 2
 //        date1.equals(date2); // date 1 is equal to date 2
 //        date1.after(date2); // date 1 occurs after date 2
+    }
+
+    public static Date getStartOfDay(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        return calendar.getTime();
+    }
+
+    public static Date getEndOfDay(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY,calendar.getActualMaximum(Calendar.HOUR_OF_DAY));
+        calendar.set(Calendar.MINUTE,calendar.getActualMaximum(Calendar.MINUTE));
+        calendar.set(Calendar.SECOND,calendar.getActualMaximum(Calendar.SECOND));
+        return calendar.getTime();
+    }
+
+    public static LocalDate convertToLocaleDate(Date date){
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public static boolean isDateBetweenTwoDates(Date startDate, Date endDate, Date dateToCheck){
+        LocalDate startLocaleDate = convertToLocaleDate(startDate);
+        LocalDate endLocaleDate = convertToLocaleDate(endDate);
+        LocalDate dailyRevenueDate = convertToLocaleDate(dateToCheck);
+
+        return !dailyRevenueDate.isBefore(startLocaleDate) && !dailyRevenueDate.isAfter(endLocaleDate);
+    }
+
+    public static void startAndEndDateOfCurrentMonth(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date startDateOfMonth = calendar.getTime();
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date endDateOfMonth = calendar.getTime();
+    }
+    public static void startAndEndDateOfPreviousMonth(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date startDateOfMonth = calendar.getTime();
+
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date endDateOfMonth = calendar.getTime();
+    }
+    public static void startAndEndDateOfCurrentFY(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.MONTH, Calendar.APRIL);
+
+        if (calendar.getTime().after(new Date())) {
+            calendar.add(Calendar.YEAR, -1);
+        }
+
+        Date startOfFinancialYear = calendar.getTime();
+
+        calendar.set(Calendar.DAY_OF_MONTH, 31);
+        calendar.set(Calendar.MONTH, Calendar.MARCH);
+        calendar.add(Calendar.YEAR, 1);
+        Date endOfFinancialYear = calendar.getTime();
+    }
+    public static void startAndEndDateOfPreviousFY(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.MONTH, Calendar.APRIL);
+
+        if (calendar.getTime().after(new Date())) {
+            calendar.add(Calendar.YEAR, -1);
+        }
+        calendar.add(Calendar.DAY_OF_MONTH,-1); // to get end of previous FY
+
+        Date endOfFinancialYear = calendar.getTime();
+
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.MONTH, Calendar.APRIL);
+        calendar.add(Calendar.YEAR, -1);
+        Date startOfFinancialYear = calendar.getTime();
     }
 }
