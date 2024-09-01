@@ -59,15 +59,17 @@ public class DateTimeUtil {
         return !dailyRevenueDate.isBefore(startLocaleDate) && !dailyRevenueDate.isAfter(endLocaleDate);
     }
 
-    public static void startAndEndDateOfCurrentMonth(){
+    public static Date[] startAndEndDateOfCurrentMonth(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         Date startDateOfMonth = calendar.getTime();
 
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date endDateOfMonth = calendar.getTime();
+
+        return new Date[]{startDateOfMonth,endDateOfMonth};
     }
-    public static void startAndEndDateOfPreviousMonth(){
+    public static Date[] startAndEndDateOfPreviousMonth(){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -75,8 +77,10 @@ public class DateTimeUtil {
 
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date endDateOfMonth = calendar.getTime();
+
+        return new Date[]{startDateOfMonth,endDateOfMonth};
     }
-    public static void startAndEndDateOfCurrentFY(){
+    public static Date[] startAndEndDateOfCurrentFY(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.set(Calendar.MONTH, Calendar.APRIL);
@@ -91,8 +95,10 @@ public class DateTimeUtil {
         calendar.set(Calendar.MONTH, Calendar.MARCH);
         calendar.add(Calendar.YEAR, 1);
         Date endOfFinancialYear = calendar.getTime();
+
+        return new Date[]{startOfFinancialYear,endOfFinancialYear};
     }
-    public static void startAndEndDateOfPreviousFY(){
+    public static Date[] startAndEndDateOfPreviousFY(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.set(Calendar.MONTH, Calendar.APRIL);
@@ -108,5 +114,7 @@ public class DateTimeUtil {
         calendar.set(Calendar.MONTH, Calendar.APRIL);
         calendar.add(Calendar.YEAR, -1);
         Date startOfFinancialYear = calendar.getTime();
+
+        return new Date[]{startOfFinancialYear,endOfFinancialYear};
     }
 }
